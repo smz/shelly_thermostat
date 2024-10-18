@@ -11,7 +11,7 @@ The implementation is done through the use of three virtual components (possibll
 2.    a "number" (slider) used to set the target tmperature (target_t_component)
 3.    a "number" (label) updated by the Shelly +H&T G3 with current ambient temperature (measeured_t_component)
 
-Hysteresis is implemented as a time constant (in seconds) controlling the minimum time between chnages of state
+Hysteresis is implemented as a time constant (in seconds) controlling the minimum time between changes of state
 
 On the Shelly +H&T G3 an action must be defined to act on temperature changes:
 
