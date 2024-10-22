@@ -11,12 +11,12 @@
 // The implementation is done through the use of three virtual components (possiblly grouped toghether):
 //    1) a "boolean" to control the state (ON/OFF) of the virtual thermostat (thermostat_control_component)
 //    2) a "number" (slider) used to set the target tmperature (target_t_component)
-//    3) a "number" (label) updated by the Shelly +H&T G3 with current ambient temperature (measeured_t_component)
+//    3) a "number" (label) updated by the Shelly +H&T G3 with current ambient temperature (measured_t_component)
 //
 // Hysteresis is implemented as a time constant (in seconds) controlling the minimum time between changes of state
 //
 // On the Shelly +H&T G3 an action must be defined to act on temperature changes:
-//      http://<thermostat_IP_address>/rpc/Number.Set?id=<measeured_t_component_ID>&value=$temperature
+//      http://<thermostat_IP_address>/rpc/Number.Set?id=<measured_t_component_ID>&value=$temperature
 //          such as:
 //      http://192.168.0.100/rpc/Number.Set?id=201&value=$temperature
 //
@@ -46,7 +46,7 @@
  
 const thermostat_control_component = "boolean:200";
 const target_t_component = "number:200";
-const measeured_t_component = "number:201";
+const measured_t_component = "number:201";
 const time_hysteresis = 60;
 
 let last_action_time = Shelly.getComponentStatus("sys").uptime - time_hysteresis;
@@ -54,7 +54,7 @@ let waiting = false;
 
 function thermostat(reason) {
     thermostat_status = Virtual.getHandle(thermostat_control_component).getValue();
-    measured_t = Virtual.getHandle(measeured_t_component).getValue();
+    measured_t = Virtual.getHandle(measured_t_component).getValue();
     target_t = Virtual.getHandle(target_t_component).getValue();
 
     print(reason,
@@ -94,6 +94,6 @@ Virtual.getHandle(thermostat_control_component).on("change", function(ev_info){t
 
 Virtual.getHandle(target_t_component).on("change", function(ev_info){thermostat("Target T changed");});
 
-Virtual.getHandle(measeured_t_component).on("change", function(ev_info){thermostat("Measured T changed");});
+Virtual.getHandle(measured_t_component).on("change", function(ev_info){thermostat("Measured T changed");});
 
 thermostat("Initialization");
